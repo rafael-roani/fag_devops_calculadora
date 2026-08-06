@@ -15,6 +15,23 @@ def calcular_total(itens, desconto_percentual=0):
 
     # Defeito proposital:
     # o desconto percentual esta sendo subtraido como valor monetario.
-    total = subtotal - (desconto_percentual / 100 * subtotal)
+    desconto_total = desconto_percentual + receber_cupons(cupom)
+    desconto_total = min(desconto_total, 100)
+    total = subtotal - (desconto_percentual / 100)
 
     return round(total, 2)
+
+CUPONS_VALIDOS = {
+    "DEVOPS10": 10
+}
+
+def receber_cupons(cupom=""):
+
+    if cupom is None:
+        return 0;
+
+    codigo = cupom.casefold()
+    if codigo not in CUPONS_VALIDOS:
+        raise ValueError("Cupom promocional inválido.")
+
+    return CUPONS_VALIDOS(codigo);
